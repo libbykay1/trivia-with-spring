@@ -21,6 +21,6 @@ public interface RoundService {
 
 	RoundResponseDto makeRoundVisible(Long id);
 
-	Game getGameEntity(Long id);
+	
 
 }

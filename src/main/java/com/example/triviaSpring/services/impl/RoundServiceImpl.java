@@ -18,6 +18,7 @@ import com.example.triviaSpring.mappers.RoundMapper;
 import com.example.triviaSpring.repositories.GameRepository;
 import com.example.triviaSpring.repositories.QuestionRepository;
 import com.example.triviaSpring.repositories.RoundRepository;
+import com.example.triviaSpring.services.GameService;
 import com.example.triviaSpring.services.RoundService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,33 +32,26 @@ public class RoundServiceImpl implements RoundService {
 	private final QuestionRepository questionRepository;
 	private final GameRepository gameRepository;
 	private final GameMapper gameMapper;
-	
-	@Override
-	public Game getGameEntity(Long id) {
-		Optional<Game> game = gameRepository.findByIdAndDeletedFalse(id);
-		if(game.isEmpty()) {
-			throw new NotFoundException("No game found with id: " + id);
-		}
-		return game.get();
-	}
+	private final GameService gameService;
+
 	
 
 	private void validateRoundRequest(RoundRequestDto roundRequestDto) {
-		if (roundRequestDto == null || roundRequestDto.getTitle() == null || roundRequestDto.getRoundNumber() == null
-				|| roundRequestDto.getQuestions() == null || roundRequestDto.getCorrectAnswers() == null
-				|| roundRequestDto.getDescription() == null || roundRequestDto.getGameId() == null) {
+		if (roundRequestDto == null || roundRequestDto.getTitle() == null || roundRequestDto.getQuestions() == null
+				|| roundRequestDto.getCorrectAnswers() == null || roundRequestDto.getDescription() == null
+				|| roundRequestDto.getGameId() == null) {
 			throw new BadRequestException("All fields are required on a Round request dto");
 		}
 	}
-	
+
 	private void validateQuestionRequest(QuestionRequestDto questionRequestDto) {
-		if (questionRequestDto == null || questionRequestDto.getText() == null 
+		if (questionRequestDto == null || questionRequestDto.getText() == null
 				|| questionRequestDto.getAcceptableAnswers() == null || questionRequestDto.getNumberInRound() == null
 				|| questionRequestDto.getAvailablePoints() == null) {
 			throw new BadRequestException("All fields are required on a Question request dto");
 		}
 	}
-	
+
 	@Override
 	public Round getRoundEntity(Long id) {
 		Optional<Round> round = roundRepository.findByIdAndDeletedFalse(id);
@@ -92,10 +86,12 @@ public class RoundServiceImpl implements RoundService {
 				questionRequestDto.setRoundId(round.getId());
 			}
 		}
-		
+
 		round.setDeleted(false);
 		round.setVisible(false);
-		round.setGame(getGameEntity(roundRequestDto.getGameId()));
+		Game game = (gameService.getGameEntity(roundRequestDto.getGameId()));
+		round.setGame(game);
+		round.setRoundNumber(game.getRounds().size()+1);
 		roundRepository.saveAndFlush(round);
 		for (Question question : round.getQuestions()) {
 			question.setRound(round);

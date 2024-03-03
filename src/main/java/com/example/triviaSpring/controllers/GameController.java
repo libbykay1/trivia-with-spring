@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.triviaSpring.dtos.GameResponseDto;
 import com.example.triviaSpring.dtos.PointsDto;
 import com.example.triviaSpring.services.GameService;
 
@@ -18,6 +19,11 @@ import lombok.RequiredArgsConstructor;
 public class GameController {
 	
 	private final GameService gameService;
+	
+	@GetMapping("{gameId}")
+	public GameResponseDto getGame(@PathVariable Long gameId) {
+		return gameService.getGame(gameId);
+	}
 	
 	@GetMapping("scores/{gameId}")
 	public List<PointsDto> getScores(@PathVariable Long gameId) {

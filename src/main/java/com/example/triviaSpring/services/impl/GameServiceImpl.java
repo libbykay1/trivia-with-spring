@@ -2,12 +2,17 @@ package com.example.triviaSpring.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.example.triviaSpring.dtos.GameResponseDto;
 import com.example.triviaSpring.dtos.PointsDto;
 import com.example.triviaSpring.entities.Game;
 import com.example.triviaSpring.entities.Team;
+import com.example.triviaSpring.exceptions.NotFoundException;
+import com.example.triviaSpring.mappers.GameMapper;
+import com.example.triviaSpring.repositories.GameRepository;
 import com.example.triviaSpring.services.GameService;
 import com.example.triviaSpring.services.RoundService;
 
@@ -16,11 +21,27 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class GameServiceImpl implements GameService {
-	
-	private final RoundService roundService;
+
+	private final GameMapper gameMapper;
+	private final GameRepository gameRepository;
+
+	@Override
+	public Game getGameEntity(Long id) {
+		Optional<Game> game = gameRepository.findByIdAndDeletedFalse(id);
+		if (game.isEmpty()) {
+			throw new NotFoundException("No game found with id: " + id);
+		}
+		return game.get();
+	}
+
+	@Override
+	public GameResponseDto getGame(Long gameId) {
+		return gameMapper.entityToDto(getGameEntity(gameId));
+	}
+
 	@Override
 	public List<PointsDto> getScores(Long gameId) {
-		Game game = roundService.getGameEntity(gameId);
+		Game game = getGameEntity(gameId);
 		List<PointsDto> scores = new ArrayList<>();
 		List<Team> teams = game.getTeams();
 		for (Team team : teams) {
@@ -31,4 +52,5 @@ public class GameServiceImpl implements GameService {
 		}
 		return scores;
 	}
+
 }
