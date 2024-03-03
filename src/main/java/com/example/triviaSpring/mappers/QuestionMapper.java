@@ -3,6 +3,8 @@ package com.example.triviaSpring.mappers;
 import java.util.List;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 import com.example.triviaSpring.dtos.QuestionRequestDto;
 import com.example.triviaSpring.dtos.QuestionResponseDto;
@@ -14,5 +16,8 @@ public interface QuestionMapper {
 
 	List<QuestionResponseDto> entitiesToDtos(List<Question> allByDeletedFalse);
 
+	@Mappings({
+        @Mapping(target = "numberInRound", source = "questionRequestDto.numberInRound")
+    })
 	Question requestDtoToEntity(QuestionRequestDto questionRequestDto);
 }

@@ -24,5 +24,4 @@ public class QuestionRequestDto {
 	private boolean deleted;
 	
 	
-
 }

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-03T11:11:25-0800",
+    date = "2024-03-03T11:59:34-0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 17.0.9 (Amazon.com Inc.)"
 )
 @Component
@@ -67,7 +67,6 @@ public class RoundMapperImpl implements RoundMapper {
 
         Round round = new Round();
 
-        round.setRoundNumber( roundRequestDto.getRoundNumber() );
         round.setTitle( roundRequestDto.getTitle() );
         round.setDescription( roundRequestDto.getDescription() );
         round.setQuestions( questionRequestDtoListToQuestionList( roundRequestDto.getQuestions() ) );
@@ -75,8 +74,6 @@ public class RoundMapperImpl implements RoundMapper {
         if ( list1 != null ) {
             round.setCorrectAnswers( new ArrayList<String>( list1 ) );
         }
-        round.setVisible( roundRequestDto.isVisible() );
-        round.setDeleted( roundRequestDto.isDeleted() );
 
         return round;
     }

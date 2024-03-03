@@ -34,8 +34,6 @@ public class RoundServiceImpl implements RoundService {
 	private final GameMapper gameMapper;
 	private final GameService gameService;
 
-	
-
 	private void validateRoundRequest(RoundRequestDto roundRequestDto) {
 		if (roundRequestDto == null || roundRequestDto.getTitle() == null || roundRequestDto.getQuestions() == null
 				|| roundRequestDto.getCorrectAnswers() == null || roundRequestDto.getDescription() == null
@@ -46,7 +44,7 @@ public class RoundServiceImpl implements RoundService {
 
 	private void validateQuestionRequest(QuestionRequestDto questionRequestDto) {
 		if (questionRequestDto == null || questionRequestDto.getText() == null
-				|| questionRequestDto.getAcceptableAnswers() == null || questionRequestDto.getNumberInRound() == null
+				|| questionRequestDto.getAcceptableAnswers() == null
 				|| questionRequestDto.getAvailablePoints() == null) {
 			throw new BadRequestException("All fields are required on a Question request dto");
 		}
@@ -80,22 +78,23 @@ public class RoundServiceImpl implements RoundService {
 	public RoundResponseDto addRound(RoundRequestDto roundRequestDto) {
 		validateRoundRequest(roundRequestDto);
 		Round round = roundMapper.roundRequestDtoToEntity(roundRequestDto);
+		int questionNumber = 1;
 		if (!roundRequestDto.getQuestions().isEmpty()) {
 			for (QuestionRequestDto questionRequestDto : roundRequestDto.getQuestions()) {
 				validateQuestionRequest(questionRequestDto);
-				questionRequestDto.setRoundId(round.getId());
+				
 			}
 		}
 
-		round.setDeleted(false);
-		round.setVisible(false);
 		Game game = (gameService.getGameEntity(roundRequestDto.getGameId()));
 		round.setGame(game);
-		round.setRoundNumber(game.getRounds().size()+1);
+		round.setRoundNumber(game.getRounds().size() + 1);
 		roundRepository.saveAndFlush(round);
+
 		for (Question question : round.getQuestions()) {
 			question.setRound(round);
-			question.setDeleted(false);
+			question.setNumberInRound(questionNumber);
+			questionNumber += 1;
 			questionRepository.saveAndFlush(question);
 		}
 

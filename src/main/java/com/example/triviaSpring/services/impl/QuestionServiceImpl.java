@@ -31,7 +31,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 	private void validateQuestionRequest(QuestionRequestDto questionRequestDto) {
 		if (questionRequestDto == null || questionRequestDto.getText() == null
-				|| questionRequestDto.getRoundId() == null || questionRequestDto.getAcceptableAnswers() == null
+				|| questionRequestDto.getAcceptableAnswers() == null
 				|| questionRequestDto.getAvailablePoints() == null) {
 			throw new BadRequestException("All fields are required on a Question request dto");
 		}
