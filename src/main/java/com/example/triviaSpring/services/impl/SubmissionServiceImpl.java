@@ -52,7 +52,7 @@ public class SubmissionServiceImpl implements SubmissionService {
 
 		return team.isPresent();
 	}
-	
+
 	private boolean alreadySubmitted(Long teamId, Long roundId) {
 		Round round = roundService.getRoundEntity(roundId);
 		Team team = teamService.getTeamEntity(teamId);
@@ -65,8 +65,7 @@ public class SubmissionServiceImpl implements SubmissionService {
 	}
 
 	@Override
-	public SubmissionResponseDto createSubmission(Long roundId,
-			SubmissionRequestDto submissionRequestDto) {
+	public SubmissionResponseDto createSubmission(Long roundId, SubmissionRequestDto submissionRequestDto) {
 		String teamName = submissionRequestDto.getTeamName();
 		Submission submission = submissionMapper.requestDtoToEntity(submissionRequestDto);
 		Round round = roundService.getRoundEntity(roundId);
@@ -75,11 +74,12 @@ public class SubmissionServiceImpl implements SubmissionService {
 			TeamRequestDto teamRequestDto = new TeamRequestDto();
 			teamRequestDto.setName(teamName);
 			teamRepository.saveAndFlush(teamMapper.requestDtoToEntity(teamRequestDto));
-			
+
 		}
 		Team team = getTeamByName(teamName);
 		if (alreadySubmitted(team.getId(), roundId)) {
-			throw new BadRequestException("Team with id: " + team.getId() + " has already submitted for round with id: " + roundId);
+			throw new BadRequestException(
+					"Team with id: " + team.getId() + " has already submitted for round with id: " + roundId);
 		}
 		team.setGame(game);
 		List<Question> questions = round.getQuestions();
@@ -97,9 +97,14 @@ public class SubmissionServiceImpl implements SubmissionService {
 
 			}
 		}
-		if (submission.getDoubleOrNothing() && correctAnswers == questions.size()) {
-			pointsEarned *= 2;
+		if (submission.getDoubleOrNothing()) {
+			if (correctAnswers == questions.size()) {
+				pointsEarned *= 2;
+			} else {
+				pointsEarned = 0.0;
+			}
 		}
+
 		submission.setPoints(pointsEarned);
 		team.setTotalPoints(team.getTotalPoints() + pointsEarned);
 		return submissionMapper.entityToResponseDto(submissionRepository.saveAndFlush(submission));

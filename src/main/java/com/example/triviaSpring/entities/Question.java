@@ -52,5 +52,7 @@ public class Question {
 	
 	private boolean deleted = false;
 	
+	private boolean bonus = false;
+	
 	
 }

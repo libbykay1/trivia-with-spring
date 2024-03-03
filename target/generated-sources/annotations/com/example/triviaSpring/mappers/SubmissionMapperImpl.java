@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-03T12:25:29-0800",
+    date = "2024-03-03T13:21:03-0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 17.0.9 (Amazon.com Inc.)"
 )
 @Component
@@ -90,6 +90,7 @@ public class SubmissionMapperImpl implements SubmissionMapper {
         questionResponseDto.setAvailablePoints( question.getAvailablePoints() );
         questionResponseDto.setNumberInRound( question.getNumberInRound() );
         questionResponseDto.setImageUrl( question.getImageUrl() );
+        questionResponseDto.setBonus( question.isBonus() );
 
         return questionResponseDto;
     }

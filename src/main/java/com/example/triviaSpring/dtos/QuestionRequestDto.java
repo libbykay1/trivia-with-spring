@@ -23,5 +23,11 @@ public class QuestionRequestDto {
 
 	private boolean deleted;
 	
+	private boolean bonus;
+	
+	
+	
+	
+	
 	
 }

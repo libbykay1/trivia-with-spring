@@ -22,5 +22,7 @@ public class QuestionResponseDto {
 	private Integer numberInRound;
 	
 	private String imageUrl;
+	
+	private boolean bonus;
 
 }

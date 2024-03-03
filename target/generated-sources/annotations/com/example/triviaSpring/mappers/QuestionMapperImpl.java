@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-03T12:25:29-0800",
+    date = "2024-03-03T13:21:03-0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 17.0.9 (Amazon.com Inc.)"
 )
 @Component
@@ -33,6 +33,7 @@ public class QuestionMapperImpl implements QuestionMapper {
         questionResponseDto.setAvailablePoints( entity.getAvailablePoints() );
         questionResponseDto.setNumberInRound( entity.getNumberInRound() );
         questionResponseDto.setImageUrl( entity.getImageUrl() );
+        questionResponseDto.setBonus( entity.isBonus() );
 
         return questionResponseDto;
     }
@@ -67,6 +68,7 @@ public class QuestionMapperImpl implements QuestionMapper {
         }
         question.setAvailablePoints( questionRequestDto.getAvailablePoints() );
         question.setDeleted( questionRequestDto.isDeleted() );
+        question.setBonus( questionRequestDto.isBonus() );
 
         return question;
     }
