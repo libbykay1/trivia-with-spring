@@ -28,16 +28,15 @@ public class QuestionServiceImpl implements QuestionService {
 	private final RoundRepository roundRepository;
 	private final RoundService roundService;
 	private final RoundMapper roundMapper;
-	
-	
+
 	private void validateQuestionRequest(QuestionRequestDto questionRequestDto) {
-		if (questionRequestDto == null || questionRequestDto.getText() == null || questionRequestDto.getRoundId() == null
-				|| questionRequestDto.getAcceptableAnswers() == null || questionRequestDto.getNumberInRound() == null
+		if (questionRequestDto == null || questionRequestDto.getText() == null
+				|| questionRequestDto.getRoundId() == null || questionRequestDto.getAcceptableAnswers() == null
 				|| questionRequestDto.getAvailablePoints() == null) {
 			throw new BadRequestException("All fields are required on a Question request dto");
 		}
 	}
-	
+
 	private Question getQuestionEntity(Long id) {
 		Optional<Question> question = questionRepository.findByIdAndDeletedFalse(id);
 		if (question.isEmpty()) {
@@ -65,8 +64,9 @@ public class QuestionServiceImpl implements QuestionService {
 	public QuestionResponseDto addQuestion(QuestionRequestDto questionRequestDto) {
 		validateQuestionRequest(questionRequestDto);
 		Question question = questionMapper.requestDtoToEntity(questionRequestDto);
-		question.setRound(roundService.getRoundEntity(questionRequestDto.getRoundId()));
-		question.setDeleted(false);
+		Round round = roundService.getRoundEntity(questionRequestDto.getRoundId());
+		question.setRound(round);
+		question.setNumberInRound(round.getQuestions().size()+1);
 		return questionMapper.entityToResponseDto(questionRepository.saveAndFlush(question));
 	}
 
@@ -91,7 +91,5 @@ public class QuestionServiceImpl implements QuestionService {
 		question.setImageUrl(imageUrl);
 		return questionMapper.entityToResponseDto(questionRepository.saveAndFlush(question));
 	}
-	
-
 
 }
