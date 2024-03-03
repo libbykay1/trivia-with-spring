@@ -23,9 +23,9 @@ class SubmissionController {
 	
 	private final SubmissionService submissionService;
 	
-	@PostMapping("/{teamId}/{roundId}")
-	public SubmissionResponseDto createSubmission(@PathVariable Long teamId, @PathVariable Long roundId, @RequestBody SubmissionRequestDto submissionRequestDto) {
-		return submissionService.createSubmission(teamId, roundId, submissionRequestDto);
+	@PostMapping("{roundId}")
+	public SubmissionResponseDto createSubmission(@PathVariable Long roundId, @RequestBody SubmissionRequestDto submissionRequestDto) {
+		return submissionService.createSubmission(roundId, submissionRequestDto);
 	}
 	
 	@GetMapping("wrong/{roundId}")

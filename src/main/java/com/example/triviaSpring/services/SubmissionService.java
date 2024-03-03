@@ -8,8 +8,8 @@ import com.example.triviaSpring.dtos.WrongAnswersDto;
 
 public interface SubmissionService {
 
-	SubmissionResponseDto createSubmission(Long teamId, Long roundId, SubmissionRequestDto submissionRequestDto);
-
 	List<WrongAnswersDto> getWrongAnswers(Long roundId);
+
+	SubmissionResponseDto createSubmission(Long roundId, SubmissionRequestDto submissionRequestDto);
 
 }

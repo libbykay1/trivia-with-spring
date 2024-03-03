@@ -35,9 +35,7 @@ public class TeamServiceImpl implements TeamService {
 	public TeamResponseDto createTeam(TeamRequestDto teamRequestDto) {
 		validateTeamRequest(teamRequestDto);
 		Team team = teamMapper.requestDtoToEntity(teamRequestDto);
-		team.setDeleted(false);
-		team.setTotalPoints(0.0);
-		team.setGame(roundService.getGameEntity(teamRequestDto.getGameId()));
+
 		return teamMapper.entityToResponseDto(teamRepository.saveAndFlush(team));
 	}
 

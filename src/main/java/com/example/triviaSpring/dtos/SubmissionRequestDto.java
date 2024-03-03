@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class SubmissionRequestDto {
-
+	
+	private String teamName;
 	private List<String> answers;
 	private boolean doubleOrNothing;
 

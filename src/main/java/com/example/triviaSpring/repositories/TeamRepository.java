@@ -14,4 +14,6 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
 
 	List<Team> findAllByDeletedFalse();
 
+	Optional<Team> findByNameAndDeletedFalse(String teamName);
+
 }

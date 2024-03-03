@@ -6,9 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class TeamRequestDto {
-	
+
 	private String name;
-	
-	private Long gameId;
 
 }

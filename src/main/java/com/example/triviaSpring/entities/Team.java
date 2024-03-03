@@ -32,7 +32,7 @@ public class Team {
 	
 	private String name;
 	
-	private Double totalPoints;
+	private Double totalPoints = 0.0;
 	
 	@OneToMany(mappedBy = "team")
 	private List<Submission> submissions;
