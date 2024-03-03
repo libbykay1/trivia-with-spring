@@ -1,6 +1,6 @@
 package com.example.triviaSpring.entities;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -34,6 +34,6 @@ public class Game {
 	
 	@OneToMany(mappedBy = "game")
 	private List<Round> rounds;
-	private Date date;
+	private LocalDateTime date;
 	private boolean deleted = false;
 }

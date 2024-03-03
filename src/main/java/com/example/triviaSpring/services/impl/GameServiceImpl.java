@@ -1,11 +1,16 @@
 package com.example.triviaSpring.services.impl;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.example.triviaSpring.dtos.GameRequestDto;
 import com.example.triviaSpring.dtos.GameResponseDto;
 import com.example.triviaSpring.dtos.PointsDto;
 import com.example.triviaSpring.entities.Game;
@@ -51,6 +56,19 @@ public class GameServiceImpl implements GameService {
 			scores.add(score);
 		}
 		return scores;
+	}
+
+	@Override
+	public GameResponseDto addGame(GameRequestDto gameRequestDto) {
+	    LocalDateTime localDateTime = gameRequestDto.getDate();
+
+
+	    
+	    Game game = gameMapper.dtoToEntity(gameRequestDto);
+	    game.setDate(localDateTime);
+
+	    // Save and return the game response DTO
+	    return gameMapper.entityToDto(gameRepository.saveAndFlush(game));
 	}
 
 }

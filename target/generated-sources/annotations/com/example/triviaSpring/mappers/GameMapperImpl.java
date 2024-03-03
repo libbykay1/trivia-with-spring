@@ -1,5 +1,6 @@
 package com.example.triviaSpring.mappers;
 
+import com.example.triviaSpring.dtos.GameRequestDto;
 import com.example.triviaSpring.dtos.GameResponseDto;
 import com.example.triviaSpring.dtos.TeamResponseDto;
 import com.example.triviaSpring.entities.Game;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-03T11:59:34-0800",
+    date = "2024-03-03T12:25:29-0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 17.0.9 (Amazon.com Inc.)"
 )
 @Component
@@ -37,6 +38,19 @@ public class GameMapperImpl implements GameMapper {
         gameResponseDto.setRounds( roundMapper.entitiesToDtos( entity.getRounds() ) );
 
         return gameResponseDto;
+    }
+
+    @Override
+    public Game dtoToEntity(GameRequestDto gameRequestDto) {
+        if ( gameRequestDto == null ) {
+            return null;
+        }
+
+        Game game = new Game();
+
+        game.setDate( gameRequestDto.getDate() );
+
+        return game;
     }
 
     protected List<TeamResponseDto> teamListToTeamResponseDtoList(List<Team> list) {

@@ -1,6 +1,7 @@
 package com.example.triviaSpring;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,7 +38,7 @@ public class Seeder implements CommandLineRunner {
 	public void run(String... args) throws Exception{
 		
 		Game exampleGame = new Game();
-		exampleGame.setDate(Date.valueOf(LocalDate.parse("2024-02-27")));
+		exampleGame.setDate(LocalDateTime.of(2024, 2, 27, 0, 0, 0));
 		
 		gameRepository.saveAll(Arrays.asList(new Game[] { exampleGame }));
 		
