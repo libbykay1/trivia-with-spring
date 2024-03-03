@@ -10,6 +10,8 @@ public interface TeamService {
 
 	Team getTeamEntity(Long id);
 
+	void addPoint(Long teamId);
+
 	
 
 }

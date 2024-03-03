@@ -48,4 +48,12 @@ public class TeamServiceImpl implements TeamService {
 		return team.get();
 	}
 
+	@Override
+	public void addPoint(Long teamId) {
+		Team team = getTeamEntity(teamId);
+		team.setTotalPoints(team.getTotalPoints() + 1.0);
+		teamRepository.saveAndFlush(team);
+		
+	}
+
 }
